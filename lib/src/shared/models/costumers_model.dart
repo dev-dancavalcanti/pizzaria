@@ -1,4 +1,4 @@
-import 'package:pizzaria/src/shared/model/orders_model.dart';
+import 'package:pizzaria/src/shared/models/orders_model.dart';
 
 class CostumersModel {
   late List<Costumer> costumer;
