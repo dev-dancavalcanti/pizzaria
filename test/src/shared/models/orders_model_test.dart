@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pizzaria/src/shared/model/costumers_model.dart';
-import 'package:pizzaria/src/shared/model/orders_model.dart';
+import 'package:pizzaria/src/shared/models/costumers_model.dart';
+import 'package:pizzaria/src/shared/models/orders_model.dart';
 
 void main() {
   group("Order Model", () {
