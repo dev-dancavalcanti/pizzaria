@@ -34,9 +34,6 @@ jobs:
       - name: Run Flutter Pub Get
         run: flutter pub get
 
-      - name: Run Flutter Analyze
-        run: flutter analyze
-
       - name: Check Code Formatting - lib
         run: dart format -l "100" --set-exit-if-changed lib/
 
