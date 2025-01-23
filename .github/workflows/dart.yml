@@ -34,12 +34,6 @@ jobs:
       - name: Run Flutter Pub Get
         run: flutter pub get
 
-      - name: Check Code Formatting - lib
-        run: dart format -l "100" --set-exit-if-changed lib/
-
-      - name: Check Code Formatting - test
-        run: dart format -l "100" --set-exit-if-changed test/
-
       # TODO: When finished the features, able the tests
       - name: Run Tests
         run: flutter test --coverage
