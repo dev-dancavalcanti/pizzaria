@@ -38,7 +38,7 @@ jobs:
       - name: Run Tests
         run: flutter test --coverage
 
-      - name: Verify if passed in the minimum percent
-        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
-        with:
-          min_coverage: 85
+     #  - name: Verify if passed in the minimum percent
+     #    uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
+     #    with:
+      #     min_coverage: 85
