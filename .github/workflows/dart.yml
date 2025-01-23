@@ -15,21 +15,15 @@ on:
 jobs:
   flutter_tests:
     name: Flutter analyze and Test
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Get Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v3.9.0
-        with:
-          java-version: "11.x"
-          distribution: "temurin"
-
       - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2.8.0
+        uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          flutter-version: 3.x
 
       - name: Run Flutter Pub Get
         run: flutter pub get
