@@ -11,32 +11,43 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  flutter_tests:
+    name: Flutter analyze and Test
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Get Repository
+        uses: actions/checkout@v4
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Setup Java
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: "11.x"
+          distribution: "temurin"
 
-      - name: Install dependencies
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2.8.0
+        with:
+          channel: "stable"
+
+      - name: Run Flutter Pub Get
         run: flutter pub get
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
-      - name: Verify formatting
-        run: flutter format --output=none --set-exit-if-changed .
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
+      - name: Run Flutter Analyze
         run: flutter analyze
 
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: flutter test
+      - name: Check Code Formatting - lib
+        run: dart format -l "100" --set-exit-if-changed lib/
+
+      - name: Check Code Formatting - test
+        run: dart format -l "100" --set-exit-if-changed test/
+
+      # TODO: When finished the features, able the tests
+      - name: Run Tests
+        run: flutter test --coverage
+
+      - name: Verify if passed in the minimum percent
+        uses: VeryGoodOpenSource/very_good_coverage@v2.1.0
+        with:
+          min_coverage: 85
