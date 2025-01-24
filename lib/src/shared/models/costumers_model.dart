@@ -32,7 +32,7 @@ class CostumersModel {
 }
 
 class Costumer {
-  String? id;
+  int? id;
   String? name;
   String? adress;
   String? phoneNumber;
@@ -46,7 +46,7 @@ class Costumer {
       required this.orders});
 
   Costumer.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
+    id = json['id'];
     name = json['name'];
     adress = json['adress'];
     phoneNumber = json['phoneNumber'];
