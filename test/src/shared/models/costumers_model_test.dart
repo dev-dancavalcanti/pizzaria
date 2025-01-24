@@ -51,7 +51,7 @@ void main() {
 
     test("Add/Remove Costumer", () {
       json.costumer.add(Costumer(
-          id: '3',
+          id: 3,
           name: 'Teste',
           adress: "Teste Teste",
           phoneNumber: "61Teste",
