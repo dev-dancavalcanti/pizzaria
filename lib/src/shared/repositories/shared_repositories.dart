@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/costumers_model.dart';
 import '../services/costumers_interface.dart';
 
@@ -10,7 +12,6 @@ class SharedRepositories implements ICostumersInterface {
   @override
   Future<CostumersModel?> initialize() async {
     _shared = await SharedPreferences.getInstance();
-    _shared.clear();
     await firstInit();
     String? data = _shared.getString(_key);
     return CostumersModel.fromJson(jsonDecode(data!));
@@ -25,7 +26,7 @@ class SharedRepositories implements ICostumersInterface {
             "id": 0,
             "name": "Jantas",
             "adress": "Cantinho da Pizza",
-            "phoneNumber": "61 999808449",
+            "phoneNumber": "(61) 9 9980-8449",
             "orders": [
               {
                 "flavor": ["Port", "Calabresa"],
