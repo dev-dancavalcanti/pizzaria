@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../shared/models/costumers_model.dart';
 import '../../../shared/models/orders_model.dart';
 import '../../../shared/services/costumers_interface.dart';
@@ -14,8 +15,12 @@ class CostumersController extends ChangeNotifier {
 
   List<String> listFlavor = [];
 
+  bool isRegister = true;
   bool isLoading = false;
   bool isVisible = false;
+  bool ifood = false;
+  bool reverseList = false;
+  bool size = true;
 
   TextEditingController name = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
@@ -23,6 +28,14 @@ class CostumersController extends ChangeNotifier {
   TextEditingController flavor = TextEditingController();
   TextEditingController date = TextEditingController();
   TextEditingController price = TextEditingController();
+
+  int? index;
+
+  /// Verify if is register
+  Future<void> toggleRegister() async {
+    isRegister = !isRegister;
+    notifyListeners();
+  }
 
   /// Verify if is loading
   Future<void> toggleLoading() async {
@@ -35,6 +48,7 @@ class CostumersController extends ChangeNotifier {
     await toggleLoading();
     listCostumers = await _db.initialize();
     _cachedCostumers = listCostumers;
+    filterDeafult();
     await toggleLoading();
   }
 
@@ -48,8 +62,12 @@ class CostumersController extends ChangeNotifier {
       required bool app,
       required String price}) async {
     bool saveCostumer = true;
+    if (phoneNumber.isEmpty || phoneNumber == '') {
+      app = true;
+    }
     for (var i = 0; i < listCostumers!.costumer.length; ++i) {
-      if (name == listCostumers!.costumer[i].name) {
+      if (name.toLowerCase() ==
+          listCostumers!.costumer[i].name!.toLowerCase()) {
         saveCostumer = false;
         return saveOrder(
             listFlavors: [...listFlavors],
@@ -105,6 +123,10 @@ class CostumersController extends ChangeNotifier {
       required int index,
       required bool app,
       required String price}) async {
+    if (listCostumers!.costumer[index].phoneNumber!.isEmpty &&
+        phoneNumber.text.isNotEmpty) {
+      listCostumers!.costumer[index].phoneNumber = phoneNumber.text;
+    }
     listCostumers!.costumer[index].orders!
         .add(Order(flavor: listFlavors, date: date, app: app, price: price));
     _db.updateData(listCostumers!);
@@ -121,9 +143,11 @@ class CostumersController extends ChangeNotifier {
           listCostumers!.costumer[i].name!.toLowerCase()) {
         phoneNumber.text = listCostumers!.costumer[i].phoneNumber!;
         adress.text = listCostumers!.costumer[i].adress!;
-        date.text = DateTime.now().day.toString();
+
+        index = i;
         return;
       } else {
+        index = null;
         phoneNumber.clear();
         adress.clear();
       }
@@ -165,7 +189,7 @@ class CostumersController extends ChangeNotifier {
       {required int indexCostumer, required int indexOrder}) async {
     listCostumers!.costumer[indexCostumer].orders!.removeAt(indexOrder);
     _db.updateData(listCostumers!);
-
+    _cachedCostumers = listCostumers;
     notifyListeners();
   }
 
@@ -192,7 +216,9 @@ class CostumersController extends ChangeNotifier {
   }
 
   /// Count all pizzas in customer orders
-  String counterPizzas(int index) {
+  String counterPizzas(
+    int index,
+  ) {
     List orders = [];
 
     for (var i = 0; i < listCostumers!.costumer[index].orders!.length; i++) {
@@ -202,6 +228,48 @@ class CostumersController extends ChangeNotifier {
       return value + element;
     });
     return pizzas.toString();
+  }
+
+  /// Check is ifood order
+  checkIfood() {
+    ifood = !ifood;
+    notifyListeners();
+  }
+
+  /// Delete costumer
+  Future<void> removeCostumer({required int index}) async {
+    listCostumers!.costumer.removeAt(index);
+    _db.updateData(listCostumers!);
+    _cachedCostumers = listCostumers;
+    this.index = null;
+    notifyListeners();
+  }
+
+  /// Filters
+  /// The list of customers in alphabetical order
+  Future<void> filterOrderAlphabetical() async {
+    listCostumers!.costumer.sort((a, b) {
+      int compare = a.name!.compareTo(b.name!);
+      if (compare != 0) {
+        return compare;
+      }
+
+      return a.id!.compareTo(b.id!);
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> filterDeafult() async {
+    listCostumers!.costumer.sort((a, b) {
+      int compare = a.id!.compareTo(b.id!);
+      if (compare != 0) {
+        return compare;
+      }
+      return compare;
+    });
+
+    notifyListeners();
   }
 
   /// Clear all TextEditController when save costumer or order
