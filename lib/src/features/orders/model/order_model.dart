@@ -1,20 +1,23 @@
 class Order {
   List<String>? flavor;
   String? date;
-  double? price;
-  bool? app;
+  int? price;
+  String? pagament;
+  String? adress;
 
   Order(
       {required this.flavor,
       required this.date,
-      required this.app,
-      required this.price});
+      required this.pagament,
+      required this.price,
+      required this.adress});
 
   Order.fromJson(Map<String, dynamic> json) {
     flavor = json['flavor'].cast<String>();
     date = json['date'];
     price = json['price'];
-    app = json['app'];
+    pagament = json['pagament'];
+    adress = json['adress'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +25,8 @@ class Order {
     data['flavor'] = flavor;
     data['date'] = date;
     data['price'] = price;
-    data['app'] = app;
+    data['pagament'] = pagament;
+    data['adress'] = adress;
     return data;
   }
 }

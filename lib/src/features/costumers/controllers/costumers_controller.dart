@@ -43,12 +43,17 @@ class CostumersController extends ChangeNotifier {
     notifyListeners();
   }
 
+  toggleApp() {
+    ifood = !ifood;
+    notifyListeners();
+  }
+
   /// Init Costumers Service
   Future<void> init() async {
     await toggleLoading();
     listCostumers = await _db.initialize();
     _cachedCostumers = listCostumers;
-    filterDeafult();
+    filterDefault();
     await toggleLoading();
   }
 
@@ -60,11 +65,9 @@ class CostumersController extends ChangeNotifier {
       required String date,
       required List<String> listFlavors,
       required bool app,
-      required String price}) async {
+      required double price}) async {
     bool saveCostumer = true;
-    if (phoneNumber.isEmpty || phoneNumber == '') {
-      app = true;
-    }
+
     for (var i = 0; i < listCostumers!.costumer.length; ++i) {
       if (name.toLowerCase() ==
           listCostumers!.costumer[i].name!.toLowerCase()) {
@@ -97,7 +100,7 @@ class CostumersController extends ChangeNotifier {
       required List<String> listFlavors,
       required String date,
       required bool app,
-      required String price}) async {
+      required double price}) async {
     var value = listCostumers!.costumer.length;
 
     listCostumers!.costumer.add(Costumer(
@@ -122,7 +125,7 @@ class CostumersController extends ChangeNotifier {
       required String date,
       required int index,
       required bool app,
-      required String price}) async {
+      required double price}) async {
     if (listCostumers!.costumer[index].phoneNumber!.isEmpty &&
         phoneNumber.text.isNotEmpty) {
       listCostumers!.costumer[index].phoneNumber = phoneNumber.text;
@@ -139,18 +142,15 @@ class CostumersController extends ChangeNotifier {
   /// Check if the customer is already registered; if so, add the number and address to the record for order pickup.
   Future<void> checkCostumer({required String name}) async {
     for (var i = 0; i < listCostumers!.costumer.length; ++i) {
-      if (name.toLowerCase() ==
+      if (name.toLowerCase() !=
           listCostumers!.costumer[i].name!.toLowerCase()) {
         phoneNumber.text = listCostumers!.costumer[i].phoneNumber!;
         adress.text = listCostumers!.costumer[i].adress!;
-
         index = i;
-        return;
-      } else {
-        index = null;
-        phoneNumber.clear();
-        adress.clear();
       }
+      index = null;
+      phoneNumber.clear();
+      adress.clear();
     }
 
     notifyListeners();
@@ -172,15 +172,16 @@ class CostumersController extends ChangeNotifier {
             (e) => e.phoneNumber
                 .toString()
                 .replaceAll(' ', '')
+                .replaceAll('(', '')
+                .replaceAll(')', '')
+                .replaceAll('-', '')
                 .toLowerCase()
                 .contains(text.toLowerCase().replaceAll(' ', '')),
           )
           .toList();
       listCostumers = listCostumers!.copyWith(costumer: list);
-    } else {
-      listCostumers = listCostumers!.copyWith(costumer: list);
     }
-
+    listCostumers = listCostumers!.copyWith(costumer: list);
     notifyListeners();
   }
 
@@ -197,7 +198,6 @@ class CostumersController extends ChangeNotifier {
   Future<void> addPizza() async {
     if (flavor.text.isNotEmpty) {
       isVisible = true;
-
       listFlavor.add(flavor.text);
       flavor.clear();
       listFlavor;
@@ -260,7 +260,7 @@ class CostumersController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> filterDeafult() async {
+  Future<void> filterDefault() async {
     listCostumers!.costumer.sort((a, b) {
       int compare = a.id!.compareTo(b.id!);
       if (compare != 0) {
@@ -269,6 +269,39 @@ class CostumersController extends ChangeNotifier {
       return compare;
     });
 
+    notifyListeners();
+  }
+
+  Future<void> filterCash() async {
+    listCostumers!.costumer.sort((a, b) {
+      double compareA =
+          a.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+      double compareB =
+          b.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+      return compareB.compareTo(compareA);
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> filterPizzas() async {
+    listCostumers!.costumer.sort((a, b) {
+      double compareA =
+          a.orders!.fold(0, (sum, order) => sum! + order.flavor!.length) ?? 0;
+      double compareB =
+          b.orders!.fold(0, (sum, order) => sum! + order.flavor!.length) ?? 0;
+      int result = compareB.compareTo(compareA);
+
+      if (result != 0) {
+        return result;
+      }
+
+      double comparePriceA =
+          a.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+      double comparePriceB =
+          b.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+      return comparePriceB.compareTo(comparePriceA);
+    });
     notifyListeners();
   }
 

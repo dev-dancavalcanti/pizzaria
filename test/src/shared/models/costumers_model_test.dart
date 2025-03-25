@@ -56,7 +56,7 @@ void main() {
           adress: "Teste Teste",
           phoneNumber: "61Teste",
           orders: [
-            Order(flavor: ['Calab'], date: 'date', app: false, price: 'price')
+            Order(flavor: ['Calab'], date: 'date', app: false, price: 53)
           ]));
 
       expect(json.costumer.length, 3);

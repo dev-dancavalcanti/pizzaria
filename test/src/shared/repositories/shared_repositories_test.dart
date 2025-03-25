@@ -18,7 +18,7 @@ void main() {
           {
             "flavor": ["Port", "Calabresa"],
             "date": "20/10",
-            "price": "55,00",
+            "price": 55,
             "app": false,
           }
         ]
@@ -49,7 +49,7 @@ void main() {
         adress: "Test",
         phoneNumber: "Test",
         orders: [
-          Order(flavor: ["Mussa"], date: "20/10", app: true, price: "55")
+          Order(flavor: ["Mussa"], date: "20/10", app: true, price: 55)
         ],
       );
       var init = await db.initialize();
@@ -66,7 +66,7 @@ void main() {
         adress: "Test",
         phoneNumber: "Test",
         orders: [
-          Order(flavor: ["Mussa"], date: "20/10", app: true, price: "55")
+          Order(flavor: ["Mussa"], date: "20/10", app: true, price: 55)
         ],
       );
       var init = await db.initialize();
