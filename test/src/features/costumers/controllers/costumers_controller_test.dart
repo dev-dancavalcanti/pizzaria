@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pizzaria/src/features/costumers/controllers/costumers_controller.dart';
 import 'package:pizzaria/src/shared/models/costumers_model.dart';
 import 'package:pizzaria/src/shared/services/costumers_interface.dart';
+
 import 'costumers_controller_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<ICostumersInterface>()])
@@ -58,7 +59,7 @@ void main() {
     );
     test('The function must add an existing consumer order ', () async {
       await controller.saveOrderOrCostumer(
-        price: '53',
+        price: 53,
         app: true,
         name: 'Daniel',
         phoneNumber: '',
@@ -71,7 +72,7 @@ void main() {
     });
     test('The function must create a new consumer', () {
       controller.saveOrderOrCostumer(
-          price: '53',
+          price: 53,
           app: false,
           name: 'Joao',
           phoneNumber: '230203',
@@ -89,7 +90,7 @@ void main() {
       await controller.addPizza();
 
       controller.saveOrderOrCostumer(
-          price: '53',
+          price: 53,
           app: false,
           name: 'Jessica',
           phoneNumber: '61 999808449',

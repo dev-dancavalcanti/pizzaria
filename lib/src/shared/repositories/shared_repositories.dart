@@ -32,7 +32,7 @@ class SharedRepositories implements ICostumersInterface {
                 "flavor": ["Port", "Calabresa"],
                 "date": "20/10",
                 "app": false,
-                "price": "55,00"
+                "price": 55.00
               }
             ]
           },

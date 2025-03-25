@@ -4,7 +4,7 @@ import 'package:pizzaria/src/shared/models/orders_model.dart';
 
 void main() {
   group("Order Model", () {
-    var json = Order(flavor: ["Calab"], date: "20/10", app: true, price: "55");
+    var json = Order(flavor: ["Calab"], date: "20/10", app: true, price: 55);
 
     test("Instance Order Model", () {
       expect(json, isInstanceOf<Order>());
