@@ -2,38 +2,53 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:pizzaria/src/features/orders/controllers/orders_controller.dart';
 
-class ListOrders extends StatelessWidget {
+class ListOrders extends StatefulWidget {
   final Query query;
   final String nameQuery;
-  final void Function()? function;
+  final OrdersController controller;
+  final String lengthQuery;
   const ListOrders(
       {super.key,
       required this.query,
       required this.nameQuery,
-      required this.function});
+      required this.controller,
+      required this.lengthQuery});
 
+  @override
+  State<ListOrders> createState() => _ListOrdersState();
+}
+
+class _ListOrdersState extends State<ListOrders> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          title: Text(nameQuery),
-          trailing: IconButton(
-            icon: const Icon(Icons.arrow_drop_down),
-            onPressed: () {},
-          ),
-        ),
-        Visibility(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 3),
-            child: FirebaseAnimatedList(
-              shrinkWrap: true,
-              query: query,
-              itemBuilder: (context, snapshot, animation, index) {
+        ConstrainedBox(
+          constraints:
+              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          child: FirebaseAnimatedList(
+            shrinkWrap: true,
+            query: widget.query,
+            itemBuilder: (context, snapshot, animation, index) {
+              if (snapshot.value == null) {
+                return const Center(
+                  child: Text("Nao tem pedidos no momento."),
+                );
+              }
+
+              Map<String, dynamic> orderData =
+                  Map<String, dynamic>.from(snapshot.value as Map);
+              var history = orderData['history'];
+
+              if (history.last['status'] == widget.nameQuery) {
                 return InkWell(
-                  onTap: function,
+                  onTap: () {
+                    widget.controller.changeQueryOrder(
+                      snapshot: snapshot,
+                    );
+                  },
                   child: Card(
                     color: Colors.red,
                     child: Column(
@@ -43,15 +58,17 @@ class ListOrders extends StatelessWidget {
                           width: 100,
                           height: 100,
                         ),
-                        Text(snapshot.child("name").value.toString()),
-                        Text(snapshot.child("flavor").value.toString()),
-                        Text(snapshot.child("adress").value.toString())
+                        Text("${orderData['order']['price']}"),
+                        Text(orderData['order']['name']),
+                        Text(orderData['order']['adress'])
                       ],
                     ),
                   ),
                 );
-              },
-            ),
+              }
+
+              return Container();
+            },
           ),
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pizzaria/src/features/orders/screens/orders_page.dart';
 import 'package:pizzaria/src/shared/utils/components/filter_box.dart';
 import 'package:provider/provider.dart';
 import 'package:svg_flutter/svg.dart';
@@ -34,11 +35,7 @@ class _HomePageState extends State<HomePage>
     List listPages = [
       const CostumersPage(),
       const Center(),
-      const Center(
-          child: Text(
-        'Em breve',
-        style: TextStyle(fontSize: 30),
-      ))
+      const OrdersPage()
     ];
 
     return Scaffold(

@@ -4,39 +4,45 @@ import 'package:pizzaria/src/features/costumers/controllers/costumers_controller
 
 class OrdersController extends ChangeNotifier {
   final CostumersController _controller;
-  OrdersController(this._controller) {
-    refresh();
-  }
+  OrdersController(this._controller);
+
+  String? nameQuery;
   bool? visibleProducao;
-  int? lengthProd;
+  String? lengthProd;
 
-  refresh() async {
-    await verifyLenght();
+  void changeQuery(String value) {
+    nameQuery = value;
+    notifyListeners();
   }
 
-  Future<void> verifyLenght() async {
-    final query = FirebaseDatabase.instance.ref('Concluido');
+  void verifyLenght(String queryName) async {
+    final query = FirebaseDatabase.instance.ref(queryName);
     var data = await query.once();
-    lengthProd = data.snapshot.children.length;
+    lengthProd = data.snapshot.children.length.toString();
   }
 
-  Future<void> changeQueryOrder(
-      {required String queryAddOrder,
-      required String queryOrderRemove,
-      required Map order}) async {
-    FirebaseDatabase query = FirebaseDatabase.instance;
-    if (queryOrderRemove == 'Concluido') {
-      // _controller.saveOrder(
-      //     listFlavors: listFlavors,
-      //     date: date,
-      //     index: index,
-      //     app: app,
-      //     price: price);
+  Future<void> changeQueryOrder({required DataSnapshot snapshot}) async {
+    FirebaseDatabase init = FirebaseDatabase.instance;
+    DatabaseReference query = init.ref('orders');
+
+    Map<String, dynamic> orderData =
+        Map<String, dynamic>.from(snapshot.value as Map);
+    var orderHistory = orderData["history"];
+
+    if (orderHistory.last["status"] == "Aguardando") {
+      query.child("${snapshot.key}").child("history").update({
+        "1": {"status": "Em Produção", "time": DateTime.now().toString()}
+      });
     }
-    query
-        .ref(queryAddOrder)
-        .child(DateTime.now().microsecondsSinceEpoch.toString())
-        .set(order);
-    query.ref(queryOrderRemove).remove();
+    if (orderHistory.last["status"] == "Em Produção") {
+      query.child("${snapshot.key}").child("history").update({
+        "2": {"status": "Em Rota", "time": DateTime.now().toString()}
+      });
+    }
+    if (orderHistory.last["status"] == "Em Rota") {
+      query.child("${snapshot.key}").child("history").update({
+        "3": {"status": "Concluído", "time": DateTime.now().toString()}
+      });
+    }
   }
 }

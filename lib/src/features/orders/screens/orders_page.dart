@@ -1,10 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pizzaria/src/features/orders/controllers/orders_controller.dart';
-import 'package:pizzaria/src/shared/utils/components/list_orders.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/models/orders_model.dart';
+import '../../../shared/utils/components/list_orders.dart';
+import '../controllers/orders_controller.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -14,89 +13,82 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  final query = FirebaseDatabase.instance;
+  final DatabaseReference _ref = FirebaseDatabase.instance.ref("orders");
 
   @override
   Widget build(BuildContext context) {
     final OrdersController controller = context.watch<OrdersController>();
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.amber,
-              width: 100,
-              height: 100,
-            ),
-            ChangeNotifierProvider.value(
-              value: controller,
-              child: Column(
+      body: ChangeNotifierProvider.value(
+        value: controller,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 100,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ListOrders(
-                      query: query.ref('Aguardando'),
-                      nameQuery: 'Aguardando',
-                      function: () {
-                        controller.changeQueryOrder(
-                            queryAddOrder: 'Em producao',
-                            queryOrderRemove: 'Aguardando',
-                            order: Order(
-                                    flavor: ['Calabresa'],
-                                    date:
-                                        '${DateTime.now().day}/${DateTime.now().month}',
-                                    app: false,
-                                    price: 55.0)
-                                .toJson());
-                      }),
-                  ListOrders(
-                      query: query.ref('Em producao'),
-                      nameQuery: 'Em producao',
-                      function: () {
-                        controller.changeQueryOrder(
-                            queryAddOrder: 'Em Rota',
-                            queryOrderRemove: 'Em producao',
-                            order: Order(
-                                    flavor: ['Calabresa'],
-                                    date:
-                                        '${DateTime.now().day}/${DateTime.now().month}',
-                                    app: false,
-                                    price: 55.0)
-                                .toJson());
-                      }),
-                  ListOrders(
-                      query: query.ref('Em Rota'),
-                      nameQuery: 'Em Rota',
-                      function: () {
-                        controller.changeQueryOrder(
-                            queryAddOrder: 'Concluido',
-                            queryOrderRemove: 'Em Rota',
-                            order: Order(
-                                    flavor: ['Calabresa'],
-                                    date:
-                                        '${DateTime.now().day}/${DateTime.now().month}',
-                                    app: false,
-                                    price: 55.0)
-                                .toJson());
-                      }),
-                  ListOrders(
-                      query: query.ref('Concluido'),
-                      nameQuery: 'Concluido',
-                      function: () {
-                        controller.changeQueryOrder(
-                            queryAddOrder: 'Aguardando',
-                            queryOrderRemove: 'Concluido',
-                            order: Order(
-                                    flavor: ['Calabresa'],
-                                    date:
-                                        '${DateTime.now().day}/${DateTime.now().month}',
-                                    app: false,
-                                    price: 55.0)
-                                .toJson());
-                      }),
+                  GestureDetector(
+                    onTap: () {
+                      controller.changeQuery("Aguardando");
+                    },
+                    child: const Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Aguardando'),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      controller.changeQuery("Em Produção");
+                    },
+                    child: const Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Em Produção'),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      controller.changeQuery("Em Rota");
+                    },
+                    child: const Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Em Rota'),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      controller.changeQuery("Concluído");
+                    },
+                    child: const Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Concluído'),
+                      ),
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
+              Column(
+                children: [
+                  ListOrders(
+                    lengthQuery: controller.lengthProd.toString(),
+                    query: _ref,
+                    nameQuery: controller.nameQuery ?? '',
+                    controller: controller,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
