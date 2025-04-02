@@ -34,44 +34,80 @@ class _OrdersPageState extends State<OrdersPage> {
                   GestureDetector(
                     onTap: () {
                       controller.changeQuery("Aguardando");
+                      setState(() {
+                        controller.select = 0;
+                      });
                     },
-                    child: const Card(
+                    child: Card(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Aguardando'),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          'Aguardando',
+                          style: TextStyle(
+                              fontWeight: controller.select == 0
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       controller.changeQuery("Em Produção");
+                      setState(() {
+                        controller.select = 1;
+                      });
                     },
-                    child: const Card(
+                    child: Card(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Em Produção'),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          'Em Produção',
+                          style: TextStyle(
+                              fontWeight: controller.select == 1
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       controller.changeQuery("Em Rota");
+                      setState(() {
+                        controller.select = 2;
+                      });
                     },
-                    child: const Card(
+                    child: Card(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Em Rota'),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          'Em Rota',
+                          style: TextStyle(
+                              fontWeight: controller.select == 2
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       controller.changeQuery("Concluído");
+                      setState(() {
+                        controller.select = 3;
+                      });
                     },
-                    child: const Card(
+                    child: Card(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Concluído'),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          'Concluído',
+                          style: TextStyle(
+                              fontWeight: controller.select == 3
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
                     ),
                   )
@@ -82,7 +118,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   ListOrders(
                     lengthQuery: controller.lengthProd.toString(),
                     query: _ref,
-                    nameQuery: controller.nameQuery ?? '',
+                    nameQuery: controller.nameQuery ?? 'Aguardando',
                     controller: controller,
                   ),
                 ],
