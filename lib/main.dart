@@ -13,6 +13,7 @@ import 'src/shared/services/costumers_interface.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
