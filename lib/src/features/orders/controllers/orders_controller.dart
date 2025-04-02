@@ -5,7 +5,7 @@ import 'package:pizzaria/src/features/costumers/controllers/costumers_controller
 class OrdersController extends ChangeNotifier {
   final CostumersController _controller;
   OrdersController(this._controller);
-
+  int select = 0;
   String? nameQuery;
   bool? visibleProducao;
   String? lengthProd;
