@@ -8,29 +8,48 @@ class OrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final OrdersMapController mapController = OrdersMapController();
+    final OrdersMapController mapController =
+        context.watch<OrdersMapController>();
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ChangeNotifierProvider.value(
-          value: mapController,
-          child: Center(
+        body: ChangeNotifierProvider.value(
+      value: mapController,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
             child: SizedBox(
               height: 250,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(mapController.lat, mapController.long),
-                    zoom: 16),
-                zoomControlsEnabled: true,
-                mapType: MapType.normal,
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-              ),
+              child: mapController.isLoading
+                  ? Center(child: Text("Loading..."))
+                  : GoogleMap(
+                      onMapCreated: (controller) {
+                        mapController.onMapController(controller);
+                      },
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(mapController.lat, mapController.long),
+                          zoom: 16),
+                      zoomControlsEnabled: true,
+                      mapType: MapType.normal,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      markers: {
+                        Marker(
+                            markerId: MarkerId("_sourceLocation"),
+                            icon: BitmapDescriptor.defaultMarker,
+                            position:
+                                LatLng(mapController.lat, mapController.long)),
+                        Marker(
+                            markerId: MarkerId("_clientLocation"),
+                            icon: BitmapDescriptor.defaultMarker,
+                            position: LatLng(-15.5447, -47.3410))
+                      },
+                      polylines:
+                          Set<Polyline>.of(mapController.polylines.values),
+                    ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ));
   }
 }
