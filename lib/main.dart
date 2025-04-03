@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pizzaria/src/features/orders/controllers/orders_controller.dart';
+import 'package:pizzaria/src/features/orders/controllers/orders_map_controller.dart';
 import 'package:pizzaria/src/features/orders/screens/order_detail_page.dart';
+import 'package:pizzaria/src/features/orders/services/http/http_service.dart';
 import 'package:pizzaria/src/shared/utils/theme/theme.dart';
 import 'package:pizzaria/src/shared/utils/theme/util.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,10 @@ class MyApp extends StatelessWidget {
             create: (i) => CostumersController(i.read<ICostumersInterface>()),
           ),
           ChangeNotifierProvider<OrdersController>(
-            create: (i) => OrdersController(i.read<CostumersController>()),
+            create: (ii) => OrdersController(ii.read<CostumersController>()),
+          ),
+          ChangeNotifierProvider<OrdersMapController>(
+            create: (iii) => OrdersMapController(iii.read<HttpService>()),
           )
         ],
         child: MaterialApp(
