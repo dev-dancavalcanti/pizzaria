@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 import 'package:pizzaria/env.dart';
-import 'package:pizzaria/src/features/orders/services/http/http_service.dart';
+import 'package:pizzaria/src/features/orders/model/map_model.dart';
+import 'package:pizzaria/src/features/orders/repositories/maps_repositories.dart';
 
 class OrdersMapController extends ChangeNotifier {
-  final HttpService _mapsRepositories;
+  final MapsRepositories _mapsRepositories;
   late GoogleMapController _mapController;
   late Position position;
   String erro = '';
@@ -16,9 +16,10 @@ class OrdersMapController extends ChangeNotifier {
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> listLatLng = [];
   bool isLoading = false;
+  MapDistanceDurationModel json = MapDistanceDurationModel();
 
   OrdersMapController(this._mapsRepositories) {
-    myPosition();
+    init();
   }
 
   toggleLoading() {
@@ -26,24 +27,27 @@ class OrdersMapController extends ChangeNotifier {
     notifyListeners();
   }
 
-  myPosition() async {
+  init() async {
     try {
       toggleLoading();
+      await _initMaps();
       await _position().then((_) async {
         await polylinesPoints().then((_) {
           generatePolyline();
         });
       });
-      var response = await _mapsRepositories.get("-15.5447%2C-47.3410");
-      print(response);
       lat = position.latitude;
       long = position.longitude;
-      var test1 = encodePoint(lat);
-      var test2 = encodePoint(long);
     } catch (e) {
       erro = e.toString();
     }
     toggleLoading();
+  }
+
+  Future<void> _initMaps() async {
+    String path = "-15.5409,-47.3229";
+    var response = await _mapsRepositories.get(path);
+    json = response;
   }
 
   Future<void> _position() async {
@@ -92,7 +96,7 @@ class OrdersMapController extends ChangeNotifier {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         request: PolylineRequest(
             origin: PointLatLng(lat, long),
-            destination: PointLatLng(-15.5447, -47.3410),
+            destination: PointLatLng(-15.5409, -47.3229),
             mode: TravelMode.driving),
         googleApiKey: GOOGLE_MAPS_API_KEY);
 
