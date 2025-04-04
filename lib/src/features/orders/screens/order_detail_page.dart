@@ -19,35 +19,29 @@ class OrderDetailPage extends StatelessWidget {
           Center(
             child: SizedBox(
               height: 250,
-              child: mapController.isLoading
-                  ? Center(child: Text("Loading..."))
-                  : GoogleMap(
-                      onMapCreated: (controller) {
-                        mapController.onMapController(controller);
-                      },
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(mapController.lat, mapController.long),
-                          zoom: 16),
-                      zoomControlsEnabled: true,
-                      mapType: MapType.normal,
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      markers: {
-                        Marker(
-                            markerId: MarkerId("_sourceLocation"),
-                            icon: BitmapDescriptor.defaultMarker,
-                            position:
-                                LatLng(mapController.lat, mapController.long)),
-                        Marker(
-                            markerId: MarkerId("_clientLocation"),
-                            icon: BitmapDescriptor.defaultMarker,
-                            position: LatLng(-15.5447, -47.3410))
-                      },
-                      polylines:
-                          Set<Polyline>.of(mapController.polylines.values),
-                    ),
+              child: GoogleMap(
+                onMapCreated: (controller) {
+                  mapController.onMapController(controller);
+                },
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(mapController.lat, mapController.long),
+                    zoom: 13),
+                zoomControlsEnabled: true,
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                markers: {
+                  Marker(
+                      markerId: MarkerId("_clientLocation"),
+                      icon: BitmapDescriptor.defaultMarker,
+                      position: LatLng(-15.5409, -47.3229))
+                },
+                polylines: Set<Polyline>.of(mapController.polylines.values),
+              ),
             ),
           ),
+          Text(mapController.json.rows?[0].elements![0].distance?.text ?? ''),
+          Text(mapController.json.rows?[0].elements![0].duration?.text ?? ''),
         ],
       ),
     ));

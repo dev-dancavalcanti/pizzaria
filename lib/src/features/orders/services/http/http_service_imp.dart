@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:pizzaria/env.dart';
 import 'package:pizzaria/src/features/orders/services/http/http_service.dart';
 import 'package:pizzaria/src/shared/exceptions/http_exception.dart';
 
@@ -12,8 +11,7 @@ class HttpServiceDio implements HttpService {
 
   Future<void> _init() async {
     _dio = Dio(BaseOptions(
-      baseUrl:
-          'https://maps.googleapis.com/maps/api/distancematrix/json?origin=-15.5472162%2C-47.344899&key=$GOOGLE_MAPS_API_KEY&',
+      baseUrl: 'https://maps.googleapis.com/maps/api/distancematrix/',
       connectTimeout: Duration(milliseconds: 30 * 1000),
       receiveTimeout: Duration(milliseconds: 30 * 1000),
     ));
