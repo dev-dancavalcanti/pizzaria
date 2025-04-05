@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pizzaria/src/shared/models/costumers_model.dart';
-import 'package:pizzaria/src/shared/models/orders_model.dart';
-import 'package:pizzaria/src/shared/repositories/shared_repositories.dart';
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
+import 'package:pizzaria/src/domain/entities/orders_entity.dart';
+import 'package:pizzaria/src/repositories/costumers/costumers_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  late SharedRepositories db;
+  late CostumersRepository db;
 
   var json = {
     "costumer": [
@@ -18,7 +18,7 @@ void main() {
           {
             "flavor": ["Port", "Calabresa"],
             "date": "20/10",
-            "price": 55,
+            "amount": 55,
             "app": false,
           }
         ]
@@ -28,7 +28,7 @@ void main() {
 
   setUp(() async {
     SharedPreferences.setMockInitialValues(json);
-    db = SharedRepositories();
+    db = CostumersRepository();
   });
   group("Shared Preferences", () {
     test("Instance Costumer", () async {
@@ -49,7 +49,17 @@ void main() {
         adress: "Test",
         phoneNumber: "Test",
         orders: [
-          Order(flavor: ["Mussa"], date: "20/10", app: true, price: 55)
+          Order(
+              flavor: ["Calab"],
+              date: "20/10",
+              amount: 55,
+              adress: '',
+              history: Historic(history: {
+                '0': {
+                  "status": "Aguardando",
+                  "time": DateTime.now(),
+                }
+              }))
         ],
       );
       var init = await db.initialize();
@@ -66,7 +76,17 @@ void main() {
         adress: "Test",
         phoneNumber: "Test",
         orders: [
-          Order(flavor: ["Mussa"], date: "20/10", app: true, price: 55)
+          Order(
+              flavor: ["Calab"],
+              date: "20/10",
+              amount: 55,
+              adress: '',
+              history: Historic(history: {
+                '0': {
+                  "status": "Aguardando",
+                  "time": DateTime.now(),
+                }
+              }))
         ],
       );
       var init = await db.initialize();

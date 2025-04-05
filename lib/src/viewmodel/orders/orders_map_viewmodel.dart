@@ -3,8 +3,9 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pizzaria/env.dart';
-import 'package:pizzaria/src/features/orders/model/map_model.dart';
-import 'package:pizzaria/src/features/orders/repositories/maps_repositories.dart';
+import 'package:pizzaria/src/domain/entities/map_entity.dart';
+
+import '../../repositories/orders/orders_repository.dart';
 
 class OrdersMapController extends ChangeNotifier {
   final MapsRepositories _mapsRepositories;

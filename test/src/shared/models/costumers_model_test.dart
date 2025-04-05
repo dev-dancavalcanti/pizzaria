@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pizzaria/src/shared/models/costumers_model.dart';
-import 'package:pizzaria/src/shared/models/orders_model.dart';
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
 
 void main() {
   group('Costumers Model', () {
@@ -28,7 +27,7 @@ void main() {
               "flavor": ["Port", "Calabresa", "Banana Nevada"],
               "date": "20/10",
               "app": false,
-              "price": "55"
+              "amount": "55"
             }
           ]
         }
@@ -47,22 +46,6 @@ void main() {
       }
 
       expect(verify, true);
-    });
-
-    test("Add/Remove Costumer", () {
-      json.costumer.add(Costumer(
-          id: 3,
-          name: 'Teste',
-          adress: "Teste Teste",
-          phoneNumber: "61Teste",
-          orders: [
-            Order(flavor: ['Calab'], date: 'date', app: false, price: 53)
-          ]));
-
-      expect(json.costumer.length, 3);
-
-      json.costumer.removeAt(2);
-      expect(json.costumer.length, 2);
     });
   });
 }

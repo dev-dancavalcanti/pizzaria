@@ -1,4 +1,4 @@
-import '../models/costumers_model.dart';
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
 
 abstract class ICostumersInterface {
   Future initialize() async {}

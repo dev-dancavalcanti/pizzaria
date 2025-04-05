@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pizzaria/src/features/costumers/screens/costumers_page.dart';
+import 'package:pizzaria/src/ui/costumers/costumers_page.dart';
 
 class CostumersSucessRegister extends StatefulWidget {
   const CostumersSucessRegister({super.key});

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mask_input_formatter/mask_input_formatter.dart';
-import 'package:pizzaria/src/features/costumers/controllers/costumers_controller.dart';
 import 'package:pizzaria/src/shared/extension/validate_extension.dart';
+import 'package:pizzaria/src/viewmodel/costumers/costumers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/utils/components/custom_text_field.dart';
+import '../../shared/utils/components/custom_text_field.dart';
 import 'costumers_sucess_register.dart';
 
 class CostumersSignUp extends StatefulWidget {
@@ -340,7 +340,7 @@ class _CostumersSignUpState extends State<CostumersSignUp>
                                             }
                                             return null;
                                           },
-                                          controller: controller.price,
+                                          controller: controller.amount,
                                           text: 'valor',
                                           inputFormatters: [
                                             MaskInputFormatter(mask: '###'),
@@ -396,9 +396,9 @@ class _CostumersSignUpState extends State<CostumersSignUp>
                                                       listFlavors:
                                                           controller.listFlavor,
                                                       app: controller.ifood,
-                                                      price: double.parse(
+                                                      amount: double.parse(
                                                           controller
-                                                              .price.text));
+                                                              .amount.text));
 
                                               setState(() {
                                                 _animationController.forward();

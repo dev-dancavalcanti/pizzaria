@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:pizzaria/src/features/orders/services/http/http_service.dart';
+import 'package:pizzaria/src/service/orders/http/http_service.dart';
 import 'package:pizzaria/src/shared/exceptions/http_exception.dart';
 
 class HttpServiceDio implements HttpService {

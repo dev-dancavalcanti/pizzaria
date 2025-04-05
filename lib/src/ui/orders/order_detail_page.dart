@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pizzaria/src/features/orders/controllers/orders_map_controller.dart';
+import 'package:pizzaria/src/viewmodel/orders/orders_map_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatelessWidget {

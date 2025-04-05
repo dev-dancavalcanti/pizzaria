@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/costumers/controllers/costumers_controller.dart';
+import '../../../viewmodel/costumers/costumers_viewmodel.dart';
 
 class AlertBox extends StatelessWidget {
   final int i;

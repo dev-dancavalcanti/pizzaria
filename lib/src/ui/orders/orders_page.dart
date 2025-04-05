@@ -2,8 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/utils/components/list_orders.dart';
-import '../controllers/orders_controller.dart';
+import '../../shared/utils/components/list_orders.dart';
+import '../../viewmodel/orders/orders_viewmodel.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});

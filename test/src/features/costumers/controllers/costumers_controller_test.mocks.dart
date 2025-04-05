@@ -6,8 +6,8 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pizzaria/src/shared/models/costumers_model.dart' as _i4;
-import 'package:pizzaria/src/shared/services/costumers_interface.dart' as _i2;
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart' as _i4;
+import 'package:pizzaria/src/service/costumers/costumers_interface.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

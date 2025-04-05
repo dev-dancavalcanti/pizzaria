@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pizzaria/src/features/orders/screens/orders_page.dart';
 import 'package:pizzaria/src/shared/utils/components/filter_box.dart';
+import 'package:pizzaria/src/ui/orders/orders_page.dart';
 import 'package:provider/provider.dart';
 import 'package:svg_flutter/svg.dart';
 
-import '../../../shared/utils/components/alert_box.dart';
-import '../controllers/costumers_controller.dart';
+import '../../shared/utils/components/alert_box.dart';
+import '../../viewmodel/costumers/costumers_viewmodel.dart';
 import 'costumers_details_page.dart';
 import 'costumers_register_page.dart';
 
