@@ -1,10 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pizzaria/src/shared/models/costumers_model.dart';
-import 'package:pizzaria/src/shared/models/orders_model.dart';
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
+import 'package:pizzaria/src/domain/entities/orders_entity.dart';
 
 void main() {
   group("Order Model", () {
-    var json = Order(flavor: ["Calab"], date: "20/10", app: true, price: "55");
+    var json = Order(
+        flavor: ["Calab"],
+        date: "20/10",
+        amount: 55,
+        adress: '',
+        history: Historic(history: {
+          '0': {
+            "status": "Aguardando",
+            "time": DateTime.now(),
+          }
+        }));
 
     test("Instance Order Model", () {
       expect(json, isInstanceOf<Order>());
@@ -27,7 +37,7 @@ void main() {
                 "flavor": ["Port", "Calabresa"],
                 "date": "20/10",
                 "app": true,
-                "price": "55"
+                "amount": "55"
               }
             ]
           },

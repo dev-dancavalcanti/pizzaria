@@ -1,0 +1,2 @@
+C:/Users/Administrator/Documents/Projetos/pizzaria/android/app/.cxx/Debug/246fd4z6/x86/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/Documents/Projetos/pizzaria/android/app/.cxx/Debug/246fd4z6/x86/CMakeFiles/rebuild_cache.dir
