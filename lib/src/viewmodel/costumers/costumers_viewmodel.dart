@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
+import 'package:pizzaria/src/domain/entities/orders_entity.dart';
 
-import '../../../shared/models/costumers_model.dart';
-import '../../../shared/models/orders_model.dart';
-import '../../../shared/services/costumers_interface.dart';
+import '../../service/costumers/costumers_interface.dart';
 
 class CostumersController extends ChangeNotifier {
   final ICostumersInterface _db;
@@ -27,7 +27,7 @@ class CostumersController extends ChangeNotifier {
   TextEditingController adress = TextEditingController();
   TextEditingController flavor = TextEditingController();
   TextEditingController date = TextEditingController();
-  TextEditingController price = TextEditingController();
+  TextEditingController amount = TextEditingController();
 
   int? index;
 
@@ -65,7 +65,7 @@ class CostumersController extends ChangeNotifier {
       required String date,
       required List<String> listFlavors,
       required bool app,
-      required double price}) async {
+      required double amount}) async {
     bool saveCostumer = true;
 
     for (var i = 0; i < listCostumers!.costumer.length; ++i) {
@@ -77,7 +77,7 @@ class CostumersController extends ChangeNotifier {
             date: date,
             index: i,
             app: app,
-            price: price);
+            amount: amount);
       }
     }
     if (saveCostumer) {
@@ -88,7 +88,7 @@ class CostumersController extends ChangeNotifier {
           listFlavors: [...listFlavors],
           date: date,
           app: app,
-          price: price);
+          amount: amount);
     }
   }
 
@@ -100,7 +100,7 @@ class CostumersController extends ChangeNotifier {
       required List<String> listFlavors,
       required String date,
       required bool app,
-      required double price}) async {
+      required double amount}) async {
     var value = listCostumers!.costumer.length;
 
     listCostumers!.costumer.add(Costumer(
@@ -109,7 +109,17 @@ class CostumersController extends ChangeNotifier {
       phoneNumber: phoneNumber,
       adress: adress,
       orders: [
-        Order(flavor: listFlavors, date: date, app: app, price: price),
+        Order(
+            flavor: ["Calab"],
+            date: "20/10",
+            amount: 55,
+            adress: '',
+            history: Historic(history: {
+              '0': {
+                "status": "Aguardando",
+                "time": DateTime.now(),
+              }
+            }))
       ],
     ));
     _db.updateData(listCostumers!);
@@ -125,13 +135,22 @@ class CostumersController extends ChangeNotifier {
       required String date,
       required int index,
       required bool app,
-      required double price}) async {
+      required double amount}) async {
     if (listCostumers!.costumer[index].phoneNumber!.isEmpty &&
         phoneNumber.text.isNotEmpty) {
       listCostumers!.costumer[index].phoneNumber = phoneNumber.text;
     }
-    listCostumers!.costumer[index].orders!
-        .add(Order(flavor: listFlavors, date: date, app: app, price: price));
+    listCostumers!.costumer[index].orders!.add(Order(
+        flavor: ["Calab"],
+        date: "20/10",
+        amount: 55,
+        adress: '',
+        history: Historic(history: {
+          '0': {
+            "status": "Aguardando",
+            "time": DateTime.now(),
+          }
+        })));
     _db.updateData(listCostumers!);
     isVisible = false;
     clearText();
@@ -275,9 +294,9 @@ class CostumersController extends ChangeNotifier {
   Future<void> filterCash() async {
     listCostumers!.costumer.sort((a, b) {
       double compareA =
-          a.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+          a.orders!.fold(0, (sum, order) => sum! + order.amount!) ?? 0;
       double compareB =
-          b.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+          b.orders!.fold(0, (sum, order) => sum! + order.amount!) ?? 0;
       return compareB.compareTo(compareA);
     });
 
@@ -297,9 +316,9 @@ class CostumersController extends ChangeNotifier {
       }
 
       double comparePriceA =
-          a.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+          a.orders!.fold(0, (sum, order) => sum! + order.amount!) ?? 0;
       double comparePriceB =
-          b.orders!.fold(0, (sum, order) => sum! + order.price!) ?? 0;
+          b.orders!.fold(0, (sum, order) => sum! + order.amount!) ?? 0;
       return comparePriceB.compareTo(comparePriceA);
     });
     notifyListeners();
@@ -313,7 +332,7 @@ class CostumersController extends ChangeNotifier {
     flavor.clear();
     phoneNumber.clear();
     listFlavor.clear();
-    price.clear();
+    amount.clear();
     notifyListeners();
   }
 }

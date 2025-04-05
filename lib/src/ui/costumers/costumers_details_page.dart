@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:svg_flutter/svg.dart';
 
-import '../controllers/costumers_controller.dart';
+import '../../viewmodel/costumers/costumers_viewmodel.dart';
 
 class ConstumersDetails extends StatelessWidget {
   final int index;
@@ -111,7 +111,7 @@ class ConstumersDetails extends StatelessWidget {
                                   bottom: -25,
                                   right: 0,
                                   child: controller.listCostumers!
-                                          .costumer[index].orders![numas].app!
+                                          .costumer[index].phoneNumber!.isEmpty
                                       ? SvgPicture.asset(
                                           'assets/svg/ifood.svg',
                                           height: 100,
@@ -164,7 +164,7 @@ class ConstumersDetails extends StatelessWidget {
                                             }),
                                       ),
                                       Text(
-                                          'R\$ ${controller.listCostumers!.costumer[index].orders![numas].price!}0')
+                                          'R\$ ${controller.listCostumers!.costumer[index].orders![numas].amount!}0')
                                     ],
                                   ),
                                 ),

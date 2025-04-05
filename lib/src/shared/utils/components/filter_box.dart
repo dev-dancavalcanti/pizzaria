@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pizzaria/src/shared/utils/widgets/icon_button.dart';
 import 'package:provider/provider.dart';
 
-import '../../../features/costumers/controllers/costumers_controller.dart';
+import '../../../viewmodel/costumers/costumers_viewmodel.dart';
 
 class FilterBox extends StatefulWidget {
   final CostumersController controller;

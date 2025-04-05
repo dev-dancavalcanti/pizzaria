@@ -2,8 +2,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:pizzaria/src/features/orders/controllers/orders_controller.dart';
-import 'package:pizzaria/src/features/orders/screens/order_detail_page.dart';
+import 'package:pizzaria/src/viewmodel/orders/orders_viewmodel.dart';
+
+import '../../../ui/orders/order_detail_page.dart';
 
 class ListOrders extends StatefulWidget {
   final Query query;
@@ -41,7 +42,7 @@ class _ListOrdersState extends State<ListOrders> {
 
               Map<String, dynamic> orderData =
                   Map<String, dynamic>.from(snapshot.value as Map);
-              var history = orderData['history'];
+              var history = orderData['order']['history'];
 
               if (history.last['status'] != widget.nameQuery) {
                 return const Center(

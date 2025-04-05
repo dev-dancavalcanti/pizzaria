@@ -1,11 +1,10 @@
 import 'dart:convert';
 
+import 'package:pizzaria/src/domain/entities/costumers_entity.dart';
+import 'package:pizzaria/src/service/costumers/costumers_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/costumers_model.dart';
-import '../services/costumers_interface.dart';
-
-class SharedRepositories implements ICostumersInterface {
+class CostumersRepository implements ICostumersInterface {
   late SharedPreferences _shared;
   final String _key = 'consumers';
 
@@ -32,7 +31,7 @@ class SharedRepositories implements ICostumersInterface {
                 "flavor": ["Port", "Calabresa"],
                 "date": "20/10",
                 "app": false,
-                "price": 55.00
+                "amount": 55.00
               }
             ]
           },

@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pizzaria/src/features/costumers/controllers/costumers_controller.dart';
+import 'package:pizzaria/src/viewmodel/costumers/costumers_viewmodel.dart';
 
 class OrdersController extends ChangeNotifier {
   final CostumersController _controller;
@@ -28,20 +28,20 @@ class OrdersController extends ChangeNotifier {
 
     Map<String, dynamic> orderData =
         Map<String, dynamic>.from(snapshot.value as Map);
-    var orderHistory = orderData["history"];
+    var orderHistory = orderData["order"]['history'];
 
     if (orderHistory.last["status"] == "Aguardando") {
-      query.child("${snapshot.key}").child("history").update({
+      query.child("${snapshot.key}").child("order").child("history").update({
         "1": {"status": "Em Produção", "time": DateTime.now().toString()}
       });
     }
     if (orderHistory.last["status"] == "Em Produção") {
-      query.child("${snapshot.key}").child("history").update({
+      query.child("${snapshot.key}").child("order").child("history").update({
         "2": {"status": "Em Rota", "time": DateTime.now().toString()}
       });
     }
     if (orderHistory.last["status"] == "Em Rota") {
-      query.child("${snapshot.key}").child("history").update({
+      query.child("${snapshot.key}").child("order").child("history").update({
         "3": {"status": "Concluído", "time": DateTime.now().toString()}
       });
     }

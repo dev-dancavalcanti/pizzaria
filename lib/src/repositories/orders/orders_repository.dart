@@ -1,6 +1,7 @@
-import 'package:pizzaria/env.dart';
-import 'package:pizzaria/src/features/orders/model/map_model.dart';
-import 'package:pizzaria/src/features/orders/services/http/http_service.dart';
+import 'package:pizzaria/src/domain/entities/map_entity.dart';
+
+import '../../../env.dart';
+import '../../service/orders/http/http_service.dart';
 
 class MapsRepositories {
   final HttpService _httpClient;
